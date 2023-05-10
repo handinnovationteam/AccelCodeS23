@@ -1,0 +1,6 @@
+
+# write this command to add it to github
+git add .
+git status # to check if things were added
+git commit -m "message you want to put"
+git push origin main

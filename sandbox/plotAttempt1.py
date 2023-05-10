@@ -1,3 +1,6 @@
+# easier code to understand how accelerometer / plotting works
+# it kinda works (try it; RAVE)
+
 import adafruit_bno055
 import board
 import time
@@ -27,6 +30,3 @@ for i in range(200):
 plt.show()
 
 
-
-
-# np.swapaxes

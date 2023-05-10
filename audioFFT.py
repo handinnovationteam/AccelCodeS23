@@ -1,3 +1,5 @@
+# attempt of Fourier Transform combined with our data from i2c
+
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from random import randrange
@@ -14,22 +16,6 @@ sensor = adafruit_bno055.BNO055_I2C(i2c)
 
 
 
-
-fig = plt.figure(figsize=(6, 3))
-x = [0]
-yx = [0]
-yy = [0]
-yz = [0]
-data = []
-data2048 = [0]*2048
-
-lnx, = plt.plot(x, yx, '-')
-lny, = plt.plot(x, yy, '-')
-lnz, = plt.plot(x, yz, '-')
-plt.axis([0, 100, -10, 10])
-i = 0
-
-
 plt.ion()
 fig = plt.figure(figsize=(10,8))
 ax1 = fig.add_subplot(211)
@@ -43,13 +29,13 @@ CHUNK = 2048 # RATE / number of updates per second
 window = np.blackman(CHUNK)
 
 RECORD_SECONDS = 20
-def soundPlot(streamNumpy):
+def soundPlot(stream):
     t1=time.time()
     # data = stream.read(CHUNK, exception_on_overflow=False)
     # waveData = wave.struct.unpack("%dh"%(CHUNK), data)
     # npArrayData = np.array(waveData)
 
-    npArrayData = streamNumpy
+    npArrayData = np.random.random((2048)) * 2000
 
     indata = npArrayData*window
     #Plot time domain
@@ -78,41 +64,5 @@ def soundPlot(streamNumpy):
         thefreq = which*RATE/CHUNK
         print ("The freq is %f Hz." % (thefreq))
 
-def update(frame):
-    global i, data2048
-    i += 1
-
-    """ getting sensor data and printing immediately"""
-    print(sensor.temperature)
-    print(sensor.euler)
-    print(sensor.gravity)
-    data.append(sensor.gravity)
-    print()
-
-    x.append(i)
-    yx.append(sensor.gravity[0])
-    yy.append(sensor.gravity[1])
-    yz.append(sensor.gravity[2])
-    lnx.set_data(x, yx) 
-    lny.set_data(x, yy) 
-    lnz.set_data(x, yz) 
-
-    if i > 90:
-        plt.axis([(i-90), 100+(i-90), -10, 10])
-
-    print("list",lnx)
-
-    data2048.append(sensor.gravity[2]*500)
-    data2048 = data2048[-2048:]
-    stream = np.array(data2048)
-    # stream = np.random.random((2048)) * 2000
-
-    soundPlot(stream)
-
-
-    return lnx,lny,lnz
-
-animation = FuncAnimation(fig, update, interval=50)
-plt.show()
-
-(n,3)
+for i in range(100):
+    soundPlot(None)
