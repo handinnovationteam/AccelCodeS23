@@ -4,3 +4,7 @@ git add .
 git status # to check if things were added
 git commit -m "message you want to put"
 git push origin main
+git log
+
+# to get the latest version type for your own computer 
+git pull origin main
